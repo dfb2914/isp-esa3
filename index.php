@@ -6,13 +6,14 @@ $errorHandler = new ErrorHandler;
 $validator = new Validator($errorHandler);
 
 $validation = $validator->check($_POST, [
-    'dest_1' => [
+    'ziel1' => [
+        'required' => true,
         'nospecialchars' => true
     ],
-    'dest_2' => [
+    'ziel2' => [
         'nospecialchars' => true
     ],
-    'dest_3' => [
+    'ziel3' => [
         'nospecialchars' => true
     ],
     'name' => [

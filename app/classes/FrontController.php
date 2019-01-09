@@ -21,43 +21,26 @@ class FrontController
      * @return void
      */
     public function check($data, $validation)
-    {
-        if(!$validation->fails()
-            && $this->isVarSet($data, 'name')
-            && $this->isVarSet($data, 'plz') 
-            && $this->isVarSet($data, 'ort') 
-            && $this->isVarSet($data, 'telefon') ) {
-                $view = 'summary';
-        } elseif($validation->fails()
-            && ($this->isVarSet($data, 'name')
-            || $this->isVarSet($data, 'plz') 
-            || $this->isVarSet($data, 'ort') 
-            || $this->isVarSet($data, 'telefon') ) ) {
-                $view = 'billing';
-        } elseif(!$validation->fails()
-            &&  ($this->isVarSet($data, "dest_1") 
-            || $this->isVarSet($data, "dest_2") 
-            || $this->isVarSet($data, "dest_3") ) ) {
-                $view = 'billing';
-        } else {
-                $view = 'home';
+    {   
+        $view = 'home';
+        $hasErrors = $validation->fails();
+        $errors = $validation->errors()->all();
+        
+        if(isset($_POST['kontakt']) && !$hasErrors) {
+            $view = 'summary';
+        }
+        
+        if(isset($_POST['kontakt']) && $hasErrors) {
+            $view = 'address';
+        }
+        
+        if(isset($_POST['ziele']) && !$hasErrors) {
+            $view = 'address';
         }
         
         
-        if($validation->fails()) {
-            echo '<pre>', print_r($validation->errors()->all()), '</pre>';
-        }
-        
-        
-        $this->dispatcher->dispatch($view);
+        $this->dispatcher->dispatch($view, $errors);
                
     }
     
-    private function isVarSet($data, $key)
-    {
-        if(!empty($data[$key])) {
-            return true; 
-        }
-        return false;
-    }
 }

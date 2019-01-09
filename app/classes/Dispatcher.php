@@ -5,33 +5,23 @@
  */
 class Dispatcher
 {
-    private $homeView;
-    private $billingView;
-    private $summaryView;
-    
-    public function __construct()
-    {
-        $this->homeView = new HomeView();
-        $this->billingView = new BillingView();
-        $this->summaryView = new SummaryView();
-    }
     
     /**
      * calls requested view
      * @param string request
      * @return void
      */
-    public function dispatch($request)
+    public function dispatch($request, $errors)
     {
         switch($request) {
             case 'home':
-                $this->homeView->display();
+                require 'app/views/home.php';
             break;
-            case 'billing':
-                $this->billingView->display();
+            case 'address':
+                require 'app/views/contact.php';
             break;
             case 'summary':
-                $this->summaryView->display();
+                require 'app/views/summary.php';
             break;
         }
     }
